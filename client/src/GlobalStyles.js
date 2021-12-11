@@ -5,13 +5,14 @@ export const breakpoints = { tablet: "600px" };
 export default createGlobalStyle`
 
     :root {
-      --celadon-blue: #1B729D;
-      --green-caper: #B1D573;
-      --saffron-yellow: #EFCB59;
-      --dolly-pink: #FA9397;
-      --macadamia-brown: #D7D6AC;
+      --blue-fountain: #50AAB3;
+      --blue-ballerina: #c8d6e5;
+      --burnt-sienna: #EE585A;
+      --yellow-glow: #F6D377;
+      --purple-foxglove: #A46A9D;
+      --lavender-gray: #BBBCD8;
       --max-content-width: 1200px;
-      --font-family: 'Raleway', sans-serif;
+      --font-family: 'Source Sans 3', sans-serif;
     }
 
     html, body, div, span, applet, object, iframe,
@@ -33,6 +34,7 @@ export default createGlobalStyle`
         font-size: 100%;
         vertical-align: baseline;
         box-sizing: border-box;
+        font-family: 'Source Sans 3', sans-serif;
     }
     /* HTML5 display-role reset for older browsers */
     article, aside, details, figcaption, figure,

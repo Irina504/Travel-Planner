@@ -1,35 +1,6 @@
-// import React, { useState } from 'react'
-// import DatePicker from "react-datepicker"
-
 import React, {useReducer} from 'react'
 import {DateRangeInput} from '@datepicker-react/styled'
 
-// const CustomPicker = () => {
-//     const [startDate, setStartDate] = useState(new Date());
-//     const [endDate, setEndDate] = useState(null);
-
-
-//     const onChange = (dates) => {
-//         const [start, end] = dates;
-//         setStartDate(start);
-//         setEndDate(end);
-//     };
-
-
-//     return (
-//         <DatePicker
-//         selected={startDate}
-//         onChange={onChange}
-//         startDate={startDate}
-//         endDate={endDate}
-//         selectsRange
-//         inline
-//     />
-//     );
-// };
-
-
-// export default CustomPicker;
 
 
 const initialState = {
@@ -49,7 +20,7 @@ const initialState = {
     }
 }
     
-    const CustomPicker = () => {
+    const DatePicker = () => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     return (
@@ -63,5 +34,5 @@ const initialState = {
     )
 }
 
-    export default CustomPicker;
+    export default DatePicker;
 
