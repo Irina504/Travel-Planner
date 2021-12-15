@@ -1,19 +1,30 @@
-import React, { createRef, useState, useEffect } from 'react'
+import React, { createRef, useState, useEffect, useContext } from 'react'
 import LoadingSpinner from "../LoadingSpinner"
 import styled from "styled-components"
 import VenueDetails from './VenueDetails'
+import { PlaceContext } from '../PlaceContext'
 
 
 
 
-const Grid = ({places, clickedChild, isLoading, type, setType, rating, setRating }) => {
+const Grid = ({ 
+  clickedChild, 
+  isLoading, 
+  type, 
+  rating, 
+  setRating, 
+  selectHandler,
+}) => {
 
   const [elemRefs, setElemRefs] = useState([])
+  const {places, setPlaces} = useContext(PlaceContext)
+
 
     useEffect(() => {
       setElemRefs((refs) => Array(places?.length).fill().map((_, index) => refs[index] || createRef()));
       
     }, [places])
+
 
     return (
         <MainWrapper>
@@ -23,8 +34,8 @@ const Grid = ({places, clickedChild, isLoading, type, setType, rating, setRating
                 <>
                 <DropdownWrapper>
                 <SelectDropdown>
-                    <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
-                        <option value="type">Type</option>
+                    {/* <select id="type" name="type" value={type} onChange={(e) => setType(e.target.value)}> */}
+                    <select id="type" name="type" value={type} onChange={(e) => selectHandler(e)}>
                         <option value="attractions">Attractions</option>
                         <option value="restaurants">Restaurants</option>
                         <option value="hotels">Hotels</option>
@@ -46,7 +57,8 @@ const Grid = ({places, clickedChild, isLoading, type, setType, rating, setRating
                                 <VenueDetails 
                                 place={place} 
                                 selected={Number(clickedChild) === index}
-                                refProp={elemRefs[index]} />
+                                refProp={elemRefs[index]}
+                                />
                             </div>
                         )
                     })}
@@ -66,7 +78,6 @@ flex-direction:column;
 overflow: hidden;
 overflow-y: scroll;
 margin-left: 50px;
-/* border: 1px solid var(--blue-fountain); */
 
 
 `;
@@ -77,33 +88,32 @@ justify-content: space-around;
 margin-bottom: 20px;
 margin-right: 50px; 
 padding: 10px;
-/* border: 1px solid var(--blue-fountain); */
 
 
 `;
 
 const SelectDropdown = styled.div`
 * {
-  
   margin: 0;
   padding: 0;
   position: relative;
   box-sizing: border-box;
+  color:#34495e ;
 }
   
   position: relative;
-  background-color: var(--blue-ballerina);
+  background-color: var(--clouds);
   border-radius: 4px;
-  width: 170px;
-  color: var(--purple-foxglove);
+  width: 200px;
+  color: #ecf0f1;
 
 & select {
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: 500;
   max-width: 100%;
-  padding: 8px 24px 8px 10px;
+  padding: 8px 66px 8px 10px;
   border: none;
-  background-color: var(----purple-foxglove);
+  background-color: var(--blue-ballerina);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -126,11 +136,10 @@ const SelectDropdown = styled.div`
   width: 0;
   height: 0;
   margin-top: -2px;
-  border-top: 5px solid var(----purple-foxglove);
+  border-top: 5px solid var(--burnt-sienna);
   border-right: 5px solid transparent;
   border-left: 5px solid transparent;
 }
-
 
 `;
 

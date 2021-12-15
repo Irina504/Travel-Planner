@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useAuth0 } from "@auth0/auth0-react";
+
 import DatePicker from './Calendar/DatePicker'
 import styled from "styled-components"
 import TopNav from './NavMenu/TopNav'
 import { Autocomplete } from "@react-google-maps/api"
+import { PlaceContext } from './PlaceContext';
 
 
-const SearchPage = ({ setCoordinates }) => {
+const SearchPage = () => {
 
+    const { loginWithRedirect } = useAuth0();
+    
+    const { setCoordinates } = useContext(PlaceContext)
     const [autocomplete, setAutocomplete] = useState(null);
-
 
     let history = useHistory();
 
@@ -24,6 +29,9 @@ const SearchPage = ({ setCoordinates }) => {
     const onPlaceChanged = () => {
         const lat = autocomplete.getPlace().geometry.location.lat();
         const lng = autocomplete.getPlace().geometry.location.lng();
+        
+        let city = autocomplete.getPlace();
+        localStorage.setItem("city", city['name'])
 
         setCoordinates({ lat, lng });
         };
@@ -36,8 +44,10 @@ const SearchPage = ({ setCoordinates }) => {
             <Title>Plan a new trip</Title>
             <div>
                 <form>
-                    <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                    <StyledInput placeholder="Where to?" />
+                    <Autocomplete onLoad={onLoad} 
+                    onPlaceChanged={onPlaceChanged}
+                    >
+                    <StyledInput placeholder="Where to?"/>
                     </Autocomplete>
                     <DatePicker />
                     <StyledBtn onClick={(ev) => clickHandler(ev)}>Start planning</StyledBtn>

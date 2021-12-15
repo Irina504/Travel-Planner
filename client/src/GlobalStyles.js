@@ -8,6 +8,8 @@ export default createGlobalStyle`
       --blue-fountain: #50AAB3;
       --blue-ballerina: #c8d6e5;
       --burnt-sienna: #EE585A;
+      --wet-asphalt: #34495e;
+      --clouds: #ecf0f1;
       --yellow-glow: #F6D377;
       --purple-foxglove: #A46A9D;
       --lavender-gray: #BBBCD8;

@@ -17,8 +17,10 @@ background: transparent;
 font-family: var(--font-family);
 padding: 10px 30px;
 font-size: 24px;
+font-weight: bold;
 border: 1px solid var(--burnt-sienna);
 cursor: pointer;
+border-radius: 5px;
 `;
 
 export default LoginButton;

@@ -1,35 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Gmap from "./Gmap"
 import Grid from "./Grid"
 import Header from "./Header"
 import { getPlacesData, getWeather } from '../../api/travelApi'
 import styled from 'styled-components'
+import { PlaceContext } from '../PlaceContext'
+
+
 
 
 const PlanPage = () => {
 
-
-    const [type, setType] = useState('restaurants');
+    const { coordinates, setCoordinates, places, setPlaces  } = useContext(PlaceContext)
+    
+    const [type, setType] = useState('attractions');
     const [rating, setRating] = useState('');
 
-    const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
     const [bounds, setBounds] = useState({});
 
     const [weatherData, setWeatherData] = useState([]);
     const [filteredPlaces, setFilteredPlaces] = useState([]);
-    const [places, setPlaces] = useState([]);
 
     const [clickedChild, setClickedChild] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    // determine user's location at the start of the app
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude }}) => {
-            setCoordinates({ lat: latitude, lng: longitude });
-        })
-    }, [])
 
-    // filter places based in selected rating
+
+    // passed to Grid I'm not sure I'll keep that******************// 
+
+    const selectHandler = (ev) => {
+        setType(ev.target.value)
+        localStorage.setItem("type", type)
+
+    }
+    //*************************************************************/
+
+    // determine user's location at the start of the app ********************************************
+
+    // useEffect(() => {
+    //     navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude }}) => {
+    //         setCoordinates({ lat: latitude, lng: longitude });
+    //     })
+    // }, [])
+
+    // ******************************************************************************************/
+
+    // filter places based in selected rating ****************//
 
     useEffect(() => {
         const filteredPlaces = places.filter((place) => place.rating > rating )
@@ -37,7 +53,9 @@ const PlanPage = () => {
 
     }, [rating])
 
-    // fetch data about places and weather 
+    //*******************************************************/
+
+    // fetch data about places and weather *********************************************************
 
     useEffect(() => {
         if(bounds.sw && bounds.ne) {
@@ -49,7 +67,6 @@ const PlanPage = () => {
             })
             getPlacesData(type, bounds.sw, bounds.ne)
             .then((data) => {
-                // console.log(data)
                 setPlaces(data?.filter((place) => place.name && place.num_reviews > 0))
                 setFilteredPlaces([])
                 setIsLoading(false)
@@ -66,11 +83,12 @@ const PlanPage = () => {
                     <Grid
                         isLoading={isLoading}
                         clickedChild={clickedChild}
-                        places={filteredPlaces.length ? filteredPlaces : places}
+                        // places={filteredPlaces.length ? filteredPlaces : places}
                         type={type}
                         setType={setType}
                         rating={rating}
                         setRating={setRating}
+                        selectHandler={selectHandler} // not sure if I'll keep it 
                     />
                 </ListWrapper>
                 <div>

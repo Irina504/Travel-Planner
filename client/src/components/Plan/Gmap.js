@@ -7,7 +7,7 @@ const Gmap = ({ setCoordinates, setBounds, coordinates, places, setClickedChild,
 
 
      return (
-        <div style={{ height: '100vh', width: '50%', position: 'absolute', top: '0', right: '0' }}>
+        <div style={{ height: '100vh', width: '50%', position: 'absolute', top: '80px', right: '0' }}>
             <GoogleMapReact
             bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY}}
             defaultCenter={coordinates}

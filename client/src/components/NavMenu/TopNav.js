@@ -1,17 +1,28 @@
 import React from 'react'
 import LoginButton from "../Login/LoginButton"
 import AdobeLogo_Sienna from "../../images/Logo/AdobeLogo_Sienna.png"
+import { useAuth0 } from "@auth0/auth0-react"; 
 
 import styled from 'styled-components'
 
 const TopNav = () => {
+
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
     return (
         <Wrapper>
             <div>
                 <Logo src={AdobeLogo_Sienna} />
             </div>
             <RightSideNav>
-            <LoginButton />
+              {isAuthenticated ? (
+                      <div style={{display: "flex", justifyContent:"space-between", alignItems: "center"}}>
+                        <p style={{color: "#A46A9D", textShadow: "0.3px 0.3px 4px #ffffff", fontWeight: "bolder", marginTop:"20px", marginRight:"10px", fontStyle:"italic"}}>Welcome back! </p>
+                        <img style={{ borderRadius:"50%", width: "40px", height: "40px", padding: "2px"}} src={user.picture} alt={user.name} />
+                    </div>
+              ): (
+                <LoginButton />
+              )}
             </RightSideNav>
         </Wrapper>
     )

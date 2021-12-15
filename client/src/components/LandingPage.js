@@ -67,13 +67,14 @@ margin-bottom: 70px;
 
 const StyledArt = styled.article`
 padding: 10px;
+font-style: italic;
 
 `;
 
 const StartBtn = styled.button`
 color: #FFFFFF;
 background: var(--burnt-sienna);
-font-size: 16px;
+font-size: 20px;
 font-weight: bolder;
 border: none;
 padding: 20px 60px;
