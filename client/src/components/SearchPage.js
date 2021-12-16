@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAuth0 } from "@auth0/auth0-react";
 
 import DatePicker from './Calendar/DatePicker'
 import styled from "styled-components"
@@ -10,14 +9,13 @@ import { PlaceContext } from './PlaceContext';
 
 
 const SearchPage = () => {
-
-    const { loginWithRedirect } = useAuth0();
     
     const { setCoordinates } = useContext(PlaceContext)
     const [autocomplete, setAutocomplete] = useState(null);
 
     let history = useHistory();
 
+    // once form filled push to PlanPage
     const clickHandler = (ev) => {
         ev.preventDefault();
         history.push("/plan")

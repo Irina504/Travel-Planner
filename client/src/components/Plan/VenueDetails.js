@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import styled from "styled-components"
 import placeHolderPhoto from "../../images/PlaceholderPhoto.jpg"
 import { ImLocation } from "react-icons/im" // location 
@@ -16,7 +16,7 @@ const VenueDetails = ({ place, selected, refProp }) => {
         ev.preventDefault();
         ev.stopPropagation();
 
-        //adds place selection to local storage 
+        //adds selected place to localStorage 
         addPlace([{ 
             placeCategory: place?.category?.name,
             placeName:place?.name, 

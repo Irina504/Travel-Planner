@@ -4,15 +4,24 @@ import AdobeLogo_Sienna from "../../images/Logo/AdobeLogo_Sienna.png"
 import { useAuth0 } from "@auth0/auth0-react"; 
 
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom';
 
 const TopNav = () => {
 
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
+  let history = useHistory();
+
+
+  const returnToSearch = (ev) => {
+    ev.preventDefault();
+    history.push("/search")
+}
+
 
     return (
         <Wrapper>
             <div>
-                <Logo src={AdobeLogo_Sienna} />
+                <Logo src={AdobeLogo_Sienna} onClick={(ev) => returnToSearch(ev)} />
             </div>
             <RightSideNav>
               {isAuthenticated ? (

@@ -11,13 +11,13 @@ const Grid = ({
   clickedChild, 
   isLoading, 
   type, 
+  setType,
   rating, 
   setRating, 
-  selectHandler,
 }) => {
 
   const [elemRefs, setElemRefs] = useState([])
-  const {places, setPlaces} = useContext(PlaceContext)
+  const { places } = useContext(PlaceContext)
 
 
     useEffect(() => {
@@ -34,8 +34,7 @@ const Grid = ({
                 <>
                 <DropdownWrapper>
                 <SelectDropdown>
-                    {/* <select id="type" name="type" value={type} onChange={(e) => setType(e.target.value)}> */}
-                    <select id="type" name="type" value={type} onChange={(e) => selectHandler(e)}>
+                    <select id="type" name="type" value={type} onChange={(e) => setType(e.target.value)} >
                         <option value="attractions">Attractions</option>
                         <option value="restaurants">Restaurants</option>
                         <option value="hotels">Hotels</option>

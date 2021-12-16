@@ -13,9 +13,9 @@ const LogoutButton = () => {
 };
 
 const StyledButton = styled.div`
-position:absolute;
+/* position:absolute;
 top: 40px;
-right: 40px;
+right: 40px; */
 width: 150px;
 border: none;
 color: var(--purple-foxglove);

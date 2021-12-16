@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import styled from "styled-components"
 import { PlaceContext } from '../PlaceContext'
@@ -13,9 +13,17 @@ import { ImSphere } from 'react-icons/im'
 const TripPlaces = ({ place }) => {
 
     const {
-        addPlace,
+        // trip,
+        // addPlace,
         removePlace,
     } = useContext(PlaceContext)
+
+    const removePlaceHandler = (ev, place) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        removePlace(place);
+    }
 
 
     return (
@@ -24,18 +32,25 @@ const TripPlaces = ({ place }) => {
                 <ImMap2 />
             </div>
             <div>
+                {place?.placeCategory && 
                 <p>{place?.placeCategory}</p>
+                }
                 <p>{place?.placeName}</p>
+                {place?.placeAddress && 
                 <p><ImLocation/>{place?.placeAddress}</p>
+                }
+                {place?.placePhone && 
                 <p><ImPhone />{place?.placePhone}</p>
+                }
+                {place?.website && 
                 <Link onClick={() => window.open(place?.website, '_blank')}><ImSphere />{place?.placeWebsite}</Link>
-
+                }
             </div>
             <ImgContainer>
-                <StyledImg src={place?.placeImage} />
+                <StyledImg src={place?.placeImage} alt="place-image" />
             </ImgContainer>
             <div>
-                <ImBin />
+                <ImBin onClick={(ev) => removePlaceHandler(ev, place)} />
             </div>
         </Wrapper>
     )
@@ -49,10 +64,7 @@ margin: auto;
 margin: 15px;
 padding: 10px;
 border: 1px solid gray;
-
 justify-content: space-around;
-
-
 
 `;
 

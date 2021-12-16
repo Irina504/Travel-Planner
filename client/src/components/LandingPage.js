@@ -25,7 +25,7 @@ const LandingPage = () => {
                 the most overwhelming part of travel. Sure, creating a Pinterest board
                 full of gorgeous pictures is fun, but then you start trying to figure out
                 the actual logistics and it hits you … oh God, this is SO MUCH WORK. Cue panic attacks.
-                We're here hopefully to help … 
+                We're here hopefully to help … <strong style={{color:"#EE585A"}}>Log in </strong> and start planning!
                 </StyledArt>
             </ArtWrapper>
             <StartBtn onClick={(ev) => handleClick(ev)}>Start planning a trip</StartBtn>

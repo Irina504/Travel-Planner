@@ -11,10 +11,9 @@ import LogoutButton from '../Login/LogOutButton';
 import TripPlaces from './TripPlaces';
 
 import { ImCalendar } from 'react-icons/im'
-import { ImUser } from 'react-icons/im'
-import { ImPrinter } from 'react-icons/im'
-import { ImFacebook2 } from 'react-icons/im'
-import { ImMail3 } from 'react-icons/im'
+// import { ImPrinter } from 'react-icons/im'
+// import { ImFacebook2 } from 'react-icons/im'
+// import { ImMail3 } from 'react-icons/im'
 
 import styled from 'styled-components'
 import { PlaceContext } from '../PlaceContext';
@@ -27,13 +26,11 @@ const TripPage = () => {
     const [selectedPlaces, setSelectedPlaces] = useState([]);
     
     const {trip,
-        trips,
         setTrips,
-        addPlace,
-        removePlace,
         clearTrip,
         tripInfo, 
-        setTripInfo, places, setPlaces  } = useContext(PlaceContext)
+        setTripInfo, 
+        } = useContext(PlaceContext)
 
     // displaying user's photo if user is logged  in //
     
@@ -69,15 +66,23 @@ const TripPage = () => {
 
     useEffect (() => {
         if (isAuthenticated) {
-            setTripInfo({ ...selectedPlaces, name:user.name, email: user.email })
-        }
-        },[])
+                setTripInfo({ 
+                _id: uuidv4(), 
+                name:user.name, 
+                email: user.email, 
+                city: localStorage.getItem("city"),
+                trip: JSON.parse(localStorage.getItem("trip")),
+                startDate: localStorage.getItem("startDate"), 
+                endDate: localStorage.getItem("endDate"),
+            })                
+            }
+            },[])
 
         // add new trip to  MongoDb 
 
-        const handleClick = (ev) => {
+        const saveTripHandler = (ev) => {
             ev.preventDefault();
-
+            console.log(tripInfo)
             fetch("/trip/addNewTrip", {
                 method: "POST",
                 body: JSON.stringify(tripInfo),
@@ -85,10 +90,21 @@ const TripPage = () => {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     },
-                });
+                })
+                .then(localStorage.clear());
+                history.push("/home")
+                
         }
 
-        // doesn't work yet ... 
+        const clearTripHandler = (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            clearTrip();
+        }
+
+
+        // See all my saved trips
 
         const seeTrips = (ev) => {
             ev.preventDefault();
@@ -106,8 +122,6 @@ const TripPage = () => {
         }
 
 
-
-
     return (
         <>
         <Wrapper>
@@ -120,14 +134,13 @@ const TripPage = () => {
                             <span style={{ marginTop: "10px"}}>{newStartDate} - {newEndDate}</span>
                         </div>
                         {isAuthenticated && 
-                        <img src={user.picture} size={36} color='#c8d6e5' style={{ marginRight: '10px', borderRadius:"50%", width: "40px", height: "40px"}} />
+                        <img src={user.picture} size={36} color='#c8d6e5' style={{ marginRight: '10px', borderRadius:"50%", width: "40px", height: "40px"}} alt="place-image" />
                         }
                     </Details>
                 </WrapperDetails>
         </Wrapper>
         <PlacesWrapper>
         {selectedPlaces.map((place, index) => {
-            // console.log(selectedPlaces)
             return (
                 <div key={index}>
                     <TripPlaces place={place} trip={trip} />
@@ -141,8 +154,8 @@ const TripPage = () => {
                 <img src={Car_Sienna} style={{height:"auto", width:"80px", cursor:"pointer"}} onClick={(ev) => returnToSearch(ev)}  />
             </div>
             <ButtonsDiv>
-            <StyledBtn onClick={handleClick}>Save Trip</StyledBtn>
-            <StyledBtn>Delete Trip</StyledBtn>
+            <StyledBtn onClick={saveTripHandler}>Save Trip</StyledBtn>
+            <StyledBtn onClick={clearTripHandler}>Delete Trip</StyledBtn>
             <StyledBtn onClick={seeTrips}>See all my trips</StyledBtn>
             </ButtonsDiv>
         </FooterDiv>
@@ -155,8 +168,6 @@ background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
 position: relative;
-
-
 
 `;
 
@@ -182,7 +193,6 @@ background: white;
 border-radius: 30px;
 box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
-
 `;
 
 const PlacesWrapper = styled.div`
@@ -194,8 +204,6 @@ margin: auto;
 margin-Top: 100px;
 margin-bottom: 100px;
 border: 1px solid gray;
-/* overflow-y: auto; */
-
 
 `;
 

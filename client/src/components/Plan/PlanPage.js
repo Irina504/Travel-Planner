@@ -11,7 +11,9 @@ import { PlaceContext } from '../PlaceContext'
 
 const PlanPage = () => {
 
+    
     const { coordinates, setCoordinates, places, setPlaces  } = useContext(PlaceContext)
+
     
     const [type, setType] = useState('attractions');
     const [rating, setRating] = useState('');
@@ -23,17 +25,6 @@ const PlanPage = () => {
 
     const [clickedChild, setClickedChild] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
-
-
-    // passed to Grid I'm not sure I'll keep that******************// 
-
-    const selectHandler = (ev) => {
-        setType(ev.target.value)
-        localStorage.setItem("type", type)
-
-    }
-    //*************************************************************/
 
     // determine user's location at the start of the app ********************************************
 
@@ -55,7 +46,7 @@ const PlanPage = () => {
 
     //*******************************************************/
 
-    // fetch data about places and weather *********************************************************
+    // fetch data about places and weather ********//
 
     useEffect(() => {
         if(bounds.sw && bounds.ne) {
@@ -74,7 +65,7 @@ const PlanPage = () => {
         }
     }, [type, bounds])
 
-
+    //*********************************************//
     
     return (
         <div>
@@ -88,7 +79,6 @@ const PlanPage = () => {
                         setType={setType}
                         rating={rating}
                         setRating={setRating}
-                        selectHandler={selectHandler} // not sure if I'll keep it 
                     />
                 </ListWrapper>
                 <div>

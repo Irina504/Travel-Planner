@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
 import LandingPage from "./components/LandingPage"
@@ -7,6 +7,7 @@ import PlanPage from "./components/Plan/PlanPage";
 import TripPage from "./components/Trip/TripPage";
 import ErrorPage from "./components/ErrorPage";
 import Home from "./components/Home"
+import TripDetails from "./components/Trip/TripDetails";
 
 
 
@@ -26,7 +27,7 @@ function App() {
           <Route path="/plan">
             <PlanPage />
           </Route>
-          <Route path="/trip">
+          <Route exact path="/trip">
             <TripPage />
           </Route>
           <Route path="/error">
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route path="/home">
             <Home />
+          </Route>
+          <Route exact path="/trip/:_id">
+            <TripDetails />
           </Route>
         
 

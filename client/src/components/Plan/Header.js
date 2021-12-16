@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 import { Autocomplete } from "@react-google-maps/api"
 import styled from 'styled-components'
@@ -7,6 +8,7 @@ import Car from "../../images/Logo/Car.png"
 
 const Header = ({ setCoordinates }) => {
 
+    let history = useHistory();
     const destination = localStorage.getItem("city")
 
         const [autocomplete, setAutocomplete] = useState(null);
@@ -20,10 +22,18 @@ const Header = ({ setCoordinates }) => {
             setCoordinates({ lat, lng });
         };
 
+        
+    
+    
+        const returnToSearch = (ev) => {
+        ev.preventDefault();
+        history.push("/search")
+    }
+
     return (
         <Wrapper>
             <Title>
-            <Logo src={Car} alt="logo" />
+            <Logo src={Car} alt="logo" onClick={(ev) => returnToSearch(ev)} />
             <StyledSpan>Yahoo! You're going to {destination}! </StyledSpan>
             </Title>
             <SearchBar>
