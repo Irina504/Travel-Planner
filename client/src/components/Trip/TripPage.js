@@ -7,13 +7,10 @@ import { useHistory } from 'react-router-dom';
 import travelAbs from '../../images/Banner/travelAbs.jpg'
 import Car_Sienna from "../../images/Logo/Car_Sienna.png"
 
-// import LogoutButton from '../Login/LogOutButton';
+import LogoutButton from '../Login/LogOutButton';
 import TripPlaces from './TripPlaces';
 
 import { ImCalendar } from 'react-icons/im'
-// import { ImPrinter } from 'react-icons/im'
-// import { ImFacebook2 } from 'react-icons/im'
-// import { ImMail3 } from 'react-icons/im'
 
 import styled from 'styled-components'
 import { PlaceContext } from '../PlaceContext';
@@ -157,6 +154,7 @@ const TripPage = () => {
             <StyledBtn onClick={saveTripHandler}>Save Trip</StyledBtn>
             <StyledBtn onClick={clearTripHandler}>Delete Trip</StyledBtn>
             <StyledBtn onClick={seeTrips}>See all my trips</StyledBtn>
+            <LogoutButton />
             </ButtonsDiv>
         </FooterDiv>
         </>
