@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext  } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { ImLocation } from 'react-icons/im'
 import { ImPhone } from "react-icons/im"
 import { ImMap2 } from "react-icons/im"
 import { ImBin } from 'react-icons/im'
 import { ImSphere } from 'react-icons/im'
-import { ImPencil } from 'react-icons/im'
 import TopNav from '../NavMenu/TopNav'
 
 import styled from "styled-components"
@@ -13,18 +12,20 @@ import { PlaceContext } from '../PlaceContext'
 
 const TripDetails = () => {
 
-    const {_id} = useParams()
-    const { setIsLoading } =  useContext(PlaceContext)
+    const {_id} = useParams();
+    let history = useHistory();
 
+    const { setIsLoading } =  useContext(PlaceContext)
     const [selectedTrip, setSelectedTrip] = useState({})
-    const [status, setStatus] = useState('idle')
+
+
+    // fetch trip by its _id *************************
 
     useEffect(() => {
         setIsLoading(true)
         fetch(`/trip/${_id}`)
         .then((res) => res.json())
         .then((data) => {
-            // console.log(data.data)
         setSelectedTrip(data.data);
         setIsLoading(false)
     })
@@ -34,47 +35,26 @@ const TripDetails = () => {
 
     }, [_id])
 
-    const updateTrip = (ev) => {
-        ev.preventDefault();
-        setIsLoading(true);
-
-        fetch(`/trips/updateTrip/${_id}`, {
-            method: "PUT",
-            body: JSON.stringify(selectedTrip),
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-        })
-        .then((res) => res.json())
-        .then((res) => {
-            setStatus("updated")
-        }).catch((err) => {
-            console.log("Error", err)
-            setStatus("error")
-        })
-    }
+    // delete the fetched trip *************************
 
     const deleteTrip = (ev) => {
         ev.preventDefault();
-        setIsLoading(true);
 
+        setIsLoading(true);
         fetch(`/trips/deleteTrip/${_id}`, {
             method: "DELETE",
-            body: JSON.stringify(selectedTrip),
+            body: JSON.stringify({_id:selectedTrip._id}),
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
         })
         .then((res) => res.json())
-        .then((data) => {
-            setSelectedTrip({})
-            setStatus("deleted")
-        }).catch((err) => {
+        .catch((err) => {
             console.log("Error", err)
-            setStatus("error")
         })
+        history.push("/home")
+        setIsLoading(false);
     }
 
 
@@ -83,56 +63,79 @@ const TripDetails = () => {
         <>
             <TopNav />
             <MainContainer>
-            <Title><ImMap2 style={{paddingRight:"20px"}} />My Trip to {selectedTrip.city}</Title>
+                <TitleDiv>
+                    <div style={{display:"flex", justifyContent: "flex-start", alignItems: "center"}}>
+                    <ImMap2 size={30} color="#BBBCD8" /><Title>... my trip to {selectedTrip.city}</Title>
+                    </div>
+                    <StyledBtn type="button" onClick={(ev) => deleteTrip(ev)}><ImBin size={30} /></StyledBtn>
+                </TitleDiv>
             {selectedTrip?.trip?.map((place, index) => {
                 return (
                     <Wrapper key={Math.floor(Math.random() * 1400000000000)}>
                         <div>
                             {place?.placeCategory && 
-                                <p>{place?.placeCategory}</p>
+                                <StyledPara style={{fontWeight: "bolder"}}>{place?.placeCategory}</StyledPara>
                             }
-                                <p>{place?.placeName}</p>
+                                <StyledPara>{place?.placeName}</StyledPara>
                             {place?.placeAddress && 
-                                <p><ImLocation/>{place?.placeAddress}</p>
+                                <p><ImLocation color="#BBBCD8"/>{place?.placeAddress}</p>
                             }
                             {place?.placePhone && 
-                                <p><ImPhone/>{place?.placePhone}</p>
+                                <StyledPara><ImPhone color="#BBBCD8"/>{place?.placePhone}</StyledPara>
                             }
-                            {place?.website && 
-                                <button onClick={() => window.open(place?.website, '_blank')}><ImSphere/>Website</button>
+                            {place?.placeWebsite && 
+                                <WebBtn onClick={() => window.open(place?.placeWebsite, '_blank')}><ImSphere/>Website</WebBtn>
                             }
                         </div>
                         <ImgContainer>
-                            <StyledImg src={place?.placeImage} alt="place-image" />
+                            <StyledImg src={place?.placeImage} alt="place" />
                         </ImgContainer>
                     </Wrapper>
                 )
             })}
                 </MainContainer>
                 <EditWrapper>
-                    <button onClick={(ev) => deleteTrip(ev)}><ImPencil/></button>
-                    <button><ImBin /></button>
+                    <StyledBtn type="button" onClick={(ev) => deleteTrip(ev)}><ImBin /></StyledBtn>
                 </EditWrapper>
         </>
     )
 }
 
 const MainContainer = styled.div`
-margin: 10px;
-padding: 10px;
+display: flex;
+flex-direction: column;
+width: 60%;
+margin: auto;
+padding: 10px 20px;
+margin-top: 20px;
 margin-bottom: 50px;
+color: var(--wet-asphalt);
+box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+
+`;
+
+const TitleDiv = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+padding: 3px 10px;
+margin-bottom: 20px;
 
 
 `;
 
 const Wrapper = styled.div`
 display: flex;
-width: 60%;
+width: 100%;
 margin: auto;
 margin-bottom: 20px;
 padding: 10px;
 justify-content: space-between;
 
+`;
+
+const StyledPara = styled.p`
+padding: 3px 5px;
 
 `;
 
@@ -141,8 +144,8 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 text-align: center
-margin: 50px 20px;
-padding: 20px 50px;
+margin: 20px 10px;
+padding: 20px 10px;
 
 `;
 
@@ -165,7 +168,38 @@ height: 100%;
 
 const EditWrapper = styled.div`
 display: flex;
+background: var(--wet-asphalt);
 justify-content: flex-end;
+
+`;
+
+const StyledBtn = styled.button`
+padding: 7px;
+background: transparent;
+border: none;
+width: 50px;
+height: 50px;
+color:#EE585A;
+margin-bottom: 10px;
+
+&:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+`;
+
+const WebBtn = styled.button`
+border: none;
+color: white;
+border-radius: 5px;
+background:var(--blue-fountain);
+font-weight: 500;
+padding: 5px 15px;
+margin-left: 7px;
+
+&:hover {
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
 
 `;
 

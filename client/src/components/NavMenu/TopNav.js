@@ -26,7 +26,7 @@ const TopNav = () => {
             <RightSideNav>
               {isAuthenticated ? (
                       <div style={{display: "flex", justifyContent:"space-between", alignItems: "center"}}>
-                        <p style={{color: "#A46A9D", textShadow: "0.3px 0.3px 4px #ffffff", fontWeight: "bolder", marginTop:"20px", marginRight:"10px", fontStyle:"italic"}}>Welcome back! </p>
+                        <p style={{color: "#FFFFFF", fontWeight: "bolder", marginTop:"20px", marginRight:"10px", fontStyle:"italic"}}>Welcome back! </p>
                         <img style={{ borderRadius:"50%", width: "40px", height: "40px", padding: "2px"}} src={user.picture} alt={user.name} />
                     </div>
               ): (

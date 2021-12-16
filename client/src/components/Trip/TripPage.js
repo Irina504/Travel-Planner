@@ -4,10 +4,10 @@ import moment from "moment";
 import { useAuth0 } from "@auth0/auth0-react"; 
 import { useHistory } from 'react-router-dom';
 
-import ButtonsMap from '../../images/Banner/ButtonsMap.jpg'
+import travelAbs from '../../images/Banner/travelAbs.jpg'
 import Car_Sienna from "../../images/Logo/Car_Sienna.png"
 
-import LogoutButton from '../Login/LogOutButton';
+// import LogoutButton from '../Login/LogOutButton';
 import TripPlaces from './TripPlaces';
 
 import { ImCalendar } from 'react-icons/im'
@@ -32,7 +32,7 @@ const TripPage = () => {
         setTripInfo, 
         } = useContext(PlaceContext)
 
-    // displaying user's photo if user is logged  in //
+    // displaying user's photo if user is logged  in ******************* //
     
     const { user, isAuthenticated } = useAuth0();
 
@@ -46,16 +46,16 @@ const TripPage = () => {
     let newStartDate = moment(startDate).format("MMM D")
     let newEndDate = moment(endDate).format("MMM D")
 
-    // ****************************************************//
+    // ****************************************************************//
 
-    // making the logo a return to SearchPage
+    // making the logo a return to plan page to add new activities
 
     const returnToSearch = (ev) => {
         ev.preventDefault();
         history.push("/plan")
     }
 
-    // add selected pages to localStorage and then save to 
+    // add selected pages to localStorage and then save to MongoDb
 
     useEffect(() => {
         const data = localStorage.getItem("trip")
@@ -75,10 +75,9 @@ const TripPage = () => {
                 startDate: localStorage.getItem("startDate"), 
                 endDate: localStorage.getItem("endDate"),
             })                
-            }
+        }
             },[])
 
-        // add new trip to  MongoDb 
 
         const saveTripHandler = (ev) => {
             ev.preventDefault();
@@ -96,6 +95,8 @@ const TripPage = () => {
                 
         }
 
+        // clear all places added to Trip *****************************************//
+
         const clearTripHandler = (ev) => {
             ev.preventDefault();
             ev.stopPropagation();
@@ -104,7 +105,7 @@ const TripPage = () => {
         }
 
 
-        // See all my saved trips
+        // Fetch all saved trips **************************************************//
 
         const seeTrips = (ev) => {
             ev.preventDefault();
@@ -125,16 +126,16 @@ const TripPage = () => {
     return (
         <>
         <Wrapper>
-            <StyledImg src={ButtonsMap} alt="Petra" style={{height: '50%'}} />
+            <StyledImg src={travelAbs} alt="travel" />
                 <WrapperDetails>
-                    <h1 style={{paddingTop:'20px', color:'#EE585A', fontWeight:'bold'}}>Trip to {destination}</h1>
+                    <h1 style={{paddingTop:'20px', color:'#A46A9D', fontWeight:'bold'}}>Trip to {destination}</h1>
                     <Details  style={{paddingTop:'60px'}}>
                         <div style={{ display: 'flex', justifyContent:'space-between'}} >
                         <ImCalendar size={36} color='#c8d6e5' style={{marginLeft: '20px', marginRight: '10px'}} />
                             <span style={{ marginTop: "10px"}}>{newStartDate} - {newEndDate}</span>
                         </div>
                         {isAuthenticated && 
-                        <img src={user.picture} size={36} color='#c8d6e5' style={{ marginRight: '10px', borderRadius:"50%", width: "40px", height: "40px"}} alt="place-image" />
+                        <img src={user.picture} size={36} color='#c8d6e5' style={{ marginRight: '10px', borderRadius:"50%", width: "40px", height: "40px"}} alt="avatar" />
                         }
                     </Details>
                 </WrapperDetails>
@@ -148,10 +149,9 @@ const TripPage = () => {
             )
         })}
         </PlacesWrapper>
-        <LogoutButton />
         <FooterDiv>
             <div>
-                <img src={Car_Sienna} style={{height:"auto", width:"80px", cursor:"pointer"}} onClick={(ev) => returnToSearch(ev)}  />
+                <img src={Car_Sienna} style={{height:"auto", width:"80px", cursor:"pointer"}} onClick={(ev) => returnToSearch(ev)}  alt="bus" />
             </div>
             <ButtonsDiv>
             <StyledBtn onClick={saveTripHandler}>Save Trip</StyledBtn>
@@ -189,7 +189,7 @@ color: black;
 padding: 10px 20px;
 width: 600px;
 height: 200px;
-background: white;
+background: var(--clouds);
 border-radius: 30px;
 box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
@@ -199,11 +199,10 @@ const PlacesWrapper = styled.div`
 display: flex;
 flex-direction: column;
 align-items: start-flex;
-width: 80%;
+width: 70%;
 margin: auto;
 margin-Top: 100px;
 margin-bottom: 100px;
-border: 1px solid gray;
 
 `;
 
@@ -235,7 +234,17 @@ justify-content: space-around;
 const StyledBtn = styled.button`
 margin: 2px 10px;
 padding: 5px 20px;
+background: transparent;
+color: #FFFFFF;
+border: none;
+border-Radius: 5px;
 cursor: pointer;
+
+&:hover {
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+
+
 
 `;
 

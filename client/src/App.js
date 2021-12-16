@@ -39,13 +39,9 @@ function App() {
           <Route exact path="/trip/:_id">
             <TripDetails />
           </Route>
-        
-
-          
         </Switch>
       </BrowserRouter>
-
-
+      
     </>
   );
 }

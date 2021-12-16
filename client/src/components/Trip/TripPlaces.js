@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import styled from "styled-components"
 import { PlaceContext } from '../PlaceContext'
 import { ImLocation } from 'react-icons/im'
@@ -12,11 +11,7 @@ import { ImSphere } from 'react-icons/im'
 
 const TripPlaces = ({ place }) => {
 
-    const {
-        // trip,
-        // addPlace,
-        removePlace,
-    } = useContext(PlaceContext)
+    const { removePlace } =  useContext(PlaceContext)
 
     const removePlaceHandler = (ev, place) => {
         ev.preventDefault();
@@ -29,11 +24,8 @@ const TripPlaces = ({ place }) => {
     return (
         <Wrapper>
             <div>
-                <ImMap2 />
-            </div>
-            <div>
                 {place?.placeCategory && 
-                <p>{place?.placeCategory}</p>
+                <p style={{fontWeight: "bolder"}}><ImMap2 color="#BBBCD8" style={{marginRight: "10px"}} />{place?.placeCategory}</p>
                 }
                 <p>{place?.placeName}</p>
                 {place?.placeAddress && 
@@ -42,12 +34,12 @@ const TripPlaces = ({ place }) => {
                 {place?.placePhone && 
                 <p><ImPhone />{place?.placePhone}</p>
                 }
-                {place?.website && 
-                <Link onClick={() => window.open(place?.website, '_blank')}><ImSphere />{place?.placeWebsite}</Link>
+                {place?.placeWebsite && 
+                <WebBtn onClick={() => window.open(place?.placeWebsite, '_blank')}><ImSphere />Website</WebBtn>
                 }
             </div>
             <ImgContainer>
-                <StyledImg src={place?.placeImage} alt="place-image" />
+                <StyledImg src={place?.placeImage} alt="place" />
             </ImgContainer>
             <div>
                 <ImBin onClick={(ev) => removePlaceHandler(ev, place)} />
@@ -61,11 +53,12 @@ const Wrapper = styled.div`
 display: flex;
 width: 100%;
 margin: auto;
-margin: 15px;
+margin-top: 10px;
+margin-bottom: 20px;
 padding: 10px;
-border: 1px solid gray;
 justify-content: space-around;
-
+border-radius: 10px;
+box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;
 
 
@@ -84,6 +77,21 @@ box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 const StyledImg = styled.img`
 flex: 1;
 height: 100%;
+`;
+
+const WebBtn = styled.button`
+border: none;
+color: white;
+border-radius: 5px;
+background:var(--blue-fountain);
+font-weight: 500;
+padding: 5px 15px;
+margin-left: 7px;
+
+&:hover {
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+
 `;
 
 

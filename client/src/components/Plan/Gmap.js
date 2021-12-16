@@ -42,7 +42,7 @@ const Gmap = ({ setCoordinates, setBounds, coordinates, places, setClickedChild,
                         lat={data.coord.lat}
                         lng={data.coord.lon}
                         >  
-                            <img height={100} src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`} alt="weather-image" />
+                            <img height={100} src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`} alt="weather" />
 
                         </div>
                     )

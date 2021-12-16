@@ -33,7 +33,7 @@ const initialState = {
         <DateRangeInput
             onDatesChange={data => dispatch({type: 'dateChange', payload: data, 
             localStorage: localStorage.setItem("startDate", startDate),
-            localStorage: localStorage.setItem("endDate", endDate )
+            localStorage: localStorage.setItem("endDate", endDate ),
         })}
             onFocusChange={focusedInput => dispatch({type: 'focusChange', payload: focusedInput})}
             startDate={state.startDate} 
@@ -44,5 +44,4 @@ const initialState = {
 }
 
     export default DatePicker;
-
 
